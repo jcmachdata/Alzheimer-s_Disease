@@ -1,0 +1,62 @@
+.navbar-default {
+    background-color: lightgrey;
+    border-color: #E7E7E7;
+}
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.centered {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  font-weight: normal;
+  }
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+}
+
+#class-table {
+  width: 60%;
+}
+
+#features-table{
+  width: 50%
+}
+
+#fitext, #classtext{
+  font-weight: bold;
+}
+
+thead {
+  font-weight: bold;
+}
+
+.hidden { display: none; }
+.unhidden { display: block; }
+
+#tree-image{
+  width: 80%;
+  /* height: 200px; */
+  margin: 12px auto;
+  /* overflow-x: hidden; */
+}
+
+#scroll-div {
+  overflow: auto;
+  max-width: 800px;
+  max-height: 600px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}

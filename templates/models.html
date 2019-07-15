@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Alzheimer's Disease</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+
+
+</head>
+
+<body>
+  <!-- header image -->
+  <!-- <img src="https://best-alzheimers-products.com/wp-content/uploads/2018/04/alzheimers-diseases-stages_1500x630.jpg" alt="bad pic" class="center" style="width:1500px;height:400px"> -->
+  <!-- Nav bar -->
+  <div class="container-fluid">
+    <img src="{{ url_for('static', filename='images/banner1.jpg') }}" alt="bad pic" class="center" style="width:100%;height:400px">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/methodology">Methodology</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/models">Models</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/demographics">Demographics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/treatment">Treatment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/resources">Resources</a>
+          </li>
+        </ul>
+      </div>
+
+    </nav> <!-- end of nav bar -->
+
+    <div class="row">
+      <div class="col-xs-12 col-lg-3">
+        <form action="/models" method="POST" enctype="multipart/form-data">
+          Model
+          <select id="model" name="model">
+            <option value="rf">Random Forest</option>
+            <option value="svc">SVC</option>
+            <option value="lr">Logistic Regression</option>
+            <!-- <option value="dnn">Deep Neural Net</option> -->
+          </select>
+          <br><br>
+          <!-- <h4>Prediction</h4> -->
+          Prediction
+          <select id="prediction" name="prediction">
+            <option value="DX">Current Diagnosis</option>
+            <option value="final_DX">Future Diagnosis</option>
+          </select>
+          <br><br>
+          <!-- <h4>Oversampling</h4> -->
+          Oversampling
+          <select id="oversampling" name="oversampling">
+            <option value="smote">SMOTE</option>
+            <option value="random">Random</option>
+          </select>
+          <br><br>
+          <!-- <h4>Scaling</h4> -->
+          Scaling
+          <select id="scaling" name="scaling">
+            <option value="standard">Standard</option>
+            <option value="minmax">MinMax</option>
+          </select>
+          <br><br>
+          Data Subset
+          <br>
+          <input type="checkbox" name="demographic" value="demographic" checked id='demographic'> Demographic<br>
+          <input type="checkbox" name="apoe4" value="apoe4" checked id='apoe4'> APOE4<br>
+          <input type="checkbox" name='cogtest' value=cogtest checked id='cogtest'> Cognitive Tests <br>
+          <input type="checkbox" name="mri" value="mri" id='mri'> MRI<br>
+          <input type="checkbox" name="mripct" value="mripct" id='mripct'> MRI with % change<br>
+          <input type="checkbox" name="pet" value="pet" checked id='pet'> PET<br>
+          <input type="checkbox" name="csf" value="csf" id='csf'> CSF<br>
+          <br>
+          <input type="checkbox" name="cv" value="cv" id='cv'> Cross Validate <br>
+          <br><br>
+
+          <p><input type="button" value="submit" onclick="selectionChanged(this.value)"></p>
+        </form>
+      </div>
+
+      <div class=" col-xs-12 col-lg-9">
+        <br><br>
+
+        <h5 class='centered' id='status'>
+        </h5>
+
+        <div class="" id='roc_curve'>
+        </div>
+
+        <div class="" id='cv-boxplot'>
+        </div>
+
+
+        <div class="" id='class_report'>
+        </div>
+
+        <br><br>
+
+        <div class="" id='features'>
+        </div>
+
+
+        <br><br>
+
+        {% if url_for('static', filename='images/tree.png') %}
+        <div id="tree-image" id='scroll-div'>
+          <br>
+          <a href="/treeimage" target="_blank"><img src="{{ url_for('static', filename='images/tree.png') }}" alt="random tree example" style="width: 50%"> </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Team Members: Logan Caldwell, John Chambers, Jasmina Jovanovic, and Ediya Yumukoff
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
